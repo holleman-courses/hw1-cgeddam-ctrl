@@ -15,9 +15,6 @@ from matplotlib import image
 print(f"TensorFlow Version: {tf.__version__}")
 print(f"Keras Version: {keras.__version__}")
 
-
-##
-
 def build_model1():
   """Fully-connected: Flatten + 3 Dense(128, leaky_relu) + Dense(10, no activation)."""
   model = Sequential([
@@ -85,11 +82,9 @@ def build_model50k():
   ])
   return model
 
-# no training or dataset construction should happen above this line
 # also, be careful not to unindent below here, or the code be executed on import
 if __name__ == '__main__':
 
-  ########################################
   ## Load the CIFAR10 data set and split into train / validation / test
   (train_images, train_labels), (test_images, test_labels) = \
       tf.keras.datasets.cifar10.load_data()
@@ -109,7 +104,6 @@ if __name__ == '__main__':
 
   CIFAR10_CLASSES = ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
 
-  ########################################
   ## Build and train model 1 (30 epochs)
   model1 = build_model1()
   model1.compile(
@@ -149,8 +143,7 @@ if __name__ == '__main__':
   _, test_acc3 = model3.evaluate(test_images, test_labels, verbose=0)
   print('Model3 — train acc: {:.4f}, val acc: {:.4f}, test acc: {:.4f}'.format(train_acc3, val_acc3, test_acc3))
 
-  ########################################
-  ## Classify a custom image (test_image_classname.png or .jpg)
+  ## Classify a custom image 
   import glob
   test_image_paths = glob.glob('test.png') + glob.glob('test.jpg')
   if test_image_paths:
@@ -167,8 +160,7 @@ if __name__ == '__main__':
   else:
     print('No test_image_*.png or test_image_*.jpg found; skip custom image classification.')
 
-  ########################################
-  ## Build, compile, and train model50k; save to best_model.h5
+  #Build, compile, and train model50k; save to best_model.h5
   model50k = build_model50k()
   model50k.compile(
       optimizer='adam',
@@ -179,5 +171,3 @@ if __name__ == '__main__':
   model50k.save('best_model.h5')
   _, test_acc50k = model50k.evaluate(test_images, test_labels, verbose=0)
   print('Model50k — test accuracy: {:.4f}'.format(test_acc50k))
-
-  # plt.show()  # Commented out so script runs without intervention
